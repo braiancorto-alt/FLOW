@@ -1,176 +1,25 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>IPTV TV por Internet Servidor TRIMI</title>
-  <meta name="robots" content="NOINDEX, NOFOLLOW">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta http-equiv="Content-Language" content="es" />
-  <link rel="shortcut icon" href="Iconos/iptv logo.png" />
-  <style>
-    body {
-      background-size: 100vw 100vh;
-      overflow: hidden;
-      background-color: black;
-      padding: 0%;
-      margin: 0%;
-      height: 100%;
-      width: 100%;
-      background-image: url("Iconos/cargando.png");
-    }
-    #video_background {
-      position: absolute;
-      bottom: 0px;
-      right: 0px;
-      min-width: 100%;
-      min-height: 100%;
-      width: 1080px;
-      height: 720px;
-      z-index: -1000;
-      overflow: hidden;
-    }
-    #boton-inicio {
-      z-index: 5;
-      background: rgba(0,0,0, 0.5);
-      border: none;
-      border-radius: 0.31em;
-      padding: 0.93em 1.87em;
-      color: #fff;
-      margin-right: 1.25em;
-      cursor: pointer;
-      transition: .3s ease all;
-      font-size: 1.12em;
-      position: absolute;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: fit-content;
-      top: 3%;
-      right: 0.2%;
-    }
-    #boton-inicio:hover {
-      background: #fff;
-      color: #000;
-    }
-    iframe {
-      z-index: 2;
-      position: absolute;
-      overflow-x: hidden;
-      overflow-y: hidden;
-      width: 100%;
-      height: 100%;
-      border: 1px solid #424949;
-    }
-    #canal-ahora {
-      z-index: 3;
-      position: absolute;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      opacity: 0.8;
-      font-size: 30px;
-      font-weight: 700;
-      font-family: arial;
-      top: 0%;
-      left: 30%;
-      right: 30%;
-      text-shadow: 2px 2px 3px black, 0 0 6em black, 0 0 0.1em black;
-    }
-    .icono {
-      width: 300px;
-      height: 120px;
-      overflow: auto;
-    }
-    .borde {
-      cursor:pointer;
-      border-radius: 0%;
-      border: 5px solid rgba(0,0,0,0);
-      opacity:  0.6;
-    }
-    .borde:hover {
-      transform: scale(1.08);
-      background-image: url("Iconos/square.png");
-      opacity:  1;
-    }
-    .flex-container {
-      display: flex;
-      flex-direction: row;
-      justify-content: center;
-      align-items: center;
-      padding-top: 1%;
-      grid-gap: 60px;
-    }
-    #canales {
-      z-index: 4;
-      position: absolute;
-      display: flex;
-      flex-direction: row;
-      flex-wrap: wrap;
-      overflow: auto;
-      width: 20px;
-      top: 0%;
-      left: 0%;
-      bottom: 0%;
-      direction: rtl;
-      opacity: .7;
-      transition: opacity 1s ease-in-out;
-      scrollbar-color: black rgba(0,0,0,0.2);
-      scrollbar-width: auto;
-    }
-    #canales:hover {
-      width: 350px;
-      opacity: 1;
-      scrollbar-width: thin;
-      background-color: rgba(0,0,0,0.15);
-    }
-  </style>
-  <script>
-    function getTimestampInSeconds () {
-      return Math.floor(Date.now() / 1000);
-    }
-    document.addEventListener("contextmenu", ev => ev.preventDefault());
-    window.addEventListener("DOMContentLoaded", () => {
-      let canales = document.getElementById("canales");
-      let reproductor = document.getElementById("iframe");
-      let canal_ahora = document.getElementById("canal-ahora");
-
-      fetch("https://raw.githubusercontent.com/galvanoteca2001/FLOW/main/trimi.csv?" + getTimestampInSeconds())
-      .then(response => response.text())
-      .then(data => {
-        let lines = data.split("\n");
-        for (let i = 0; i < lines.length; ++i) {
-          let line = lines[i];
-          if (line !== "") {
-            let parts = line.split(",");
-            let name = parts[0];
-            let image_path = parts[1];
-            let video_url = parts[2];
-            let img = document.createElement("img");
-            img.setAttribute("src", image_path);
-            img.setAttribute("class", "icono borde");
-            img.addEventListener("click", () => {
-              reproductor.setAttribute("src", video_url);
-              canal_ahora.innerText = name;
-            });
-            canales.appendChild(img);
-          }
-        }
-      });
-    });
-  </script>
-</head>
-<body>
-  <video autoplay id="video_background" preload="auto" muted loop>
-    <source src="Iconos/intro.mp4" type="video/mp4" />
-  </video>
-
-  <div id="canales"></div>
-
-  <div id="reproductor">
-    <p id="canal-ahora"></p>
-    <button id="boton-inicio" onclick="window.location='https://galvanoteca2001.github.io/embedflow/index.html'">Inicio</button>
-    <iframe id="iframe" allow="autoplay; encrypted-media; fullscreen" allowfullscreen></iframe>
-  </div>
-</body>
-</html>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#09111f">
+<title>FLOW · TV en vivo</title><link rel="icon" href="Iconos/iptv logo.png"><script src="https://cdn.jsdelivr.net/npm/hls.js@1"></script>
+<style>
+:root{color-scheme:dark;--bg:#09111f;--panel:#142237;--line:#29394f;--muted:#9ba9bd;--accent:#55d6be;--text:#f3f7fc}*{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 75% -10%,#1c3453 0,transparent 45%),var(--bg);color:var(--text);font:15px/1.45 system-ui,sans-serif}header{position:sticky;top:0;z-index:2;display:flex;align-items:center;gap:18px;padding:14px clamp(16px,4vw,48px);background:#09111fee;border-bottom:1px solid var(--line);backdrop-filter:blur(12px)}.brand{display:flex;align-items:center;gap:10px;font-size:20px;font-weight:800;white-space:nowrap}.brand img{width:38px;height:38px;object-fit:contain}.brand b{color:var(--accent)}.tools{display:flex;gap:10px;margin-left:auto;min-width:min(100%,560px)}input,select{min-width:0;padding:11px 13px;color:var(--text);background:#111c2d;border:1px solid var(--line);border-radius:10px;font:inherit}input{flex:1}select{max-width:230px}main{width:min(1440px,100%);margin:auto;padding:28px clamp(16px,4vw,48px) 60px}.intro{display:flex;align-items:end;justify-content:space-between;gap:16px;margin:5px 0 23px}.intro h1{font-size:clamp(25px,4vw,38px);margin:0 0 4px}.intro p,.count,#status{color:var(--muted);margin:0}.category{margin:28px 0 36px}.category h2{font-size:20px;margin:0 0 14px}.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:12px}.card{min-height:126px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:15px;background:linear-gradient(145deg,#152337,#101a29);border:1px solid var(--line);border-radius:14px;color:var(--text);text-align:center}.card.play{cursor:pointer;transition:.15s}.card.play:hover,.card.play:focus-visible{transform:translateY(-2px);border-color:var(--accent);outline:none}.logo,.placeholder{width:54px;height:54px;border-radius:12px}.logo{object-fit:contain;background:white;padding:4px}.placeholder{display:grid;place-items:center;background:#24364d;color:var(--accent);font-size:23px;font-weight:700}.name{font-weight:650}.badge{font-size:11px;color:var(--muted)}.badge.ok{color:var(--accent)}.player{position:fixed;inset:0;z-index:4;display:none;place-items:center;padding:18px;background:#000e}.player.open{display:grid}.box{width:min(100%,1000px);background:#101a29;border:1px solid var(--line);border-radius:16px;overflow:hidden}.bar{display:flex;align-items:center;justify-content:space-between;padding:12px 16px}.bar h2{font-size:17px;margin:0}.close{padding:7px 12px;color:white;background:#1c2a3e;border:1px solid var(--line);border-radius:9px;font:inherit;cursor:pointer}video{display:block;width:100%;max-height:75vh;background:black}.note{color:var(--muted);font-size:13px;padding:10px 16px 14px;margin:0}@media(max-width:650px){header{flex-wrap:wrap}.tools{width:100%;margin:0}.intro{align-items:start;flex-direction:column}.grid{grid-template-columns:repeat(auto-fill,minmax(135px,1fr))}select{max-width:46%}}
+</style></head>
+<body><header><div class="brand"><img src="Iconos/iptv logo.png" alt=""><span><b>FLOW</b> · TV</span></div><div class="tools"><input id="search" type="search" placeholder="Buscar canal…" aria-label="Buscar canal"><select id="category" aria-label="Elegir categoría"><option value="">Todas las categorías</option></select></div></header>
+<main><div class="intro"><div><h1>Canales en vivo</h1><p>Catálogo organizado por categoría</p></div><div id="count" class="count"></div></div><div id="status" role="status">Cargando catálogo…</div><div id="catalog"></div></main>
+<section id="player" class="player" role="dialog" aria-modal="true" aria-labelledby="playing-name"><div class="box"><div class="bar"><h2 id="playing-name">Reproduciendo</h2><button id="close" class="close" type="button">Cerrar</button></div><video id="video" controls playsinline></video><p id="play-status" class="note">Cargando transmisión…</p></div></section>
+<script>
+const CATALOG_URL='https://raw.githubusercontent.com/mac-donal/tvplus2/main/TV2-2026%20(2).json';
+const $=id=>document.getElementById(id),catalogEl=$('catalog'),categoryEl=$('category'),searchEl=$('search');let groups=[],hls=null;
+function hasDrm(item){return Object.entries(item).some(([key,value])=>/drm|license|clearkey|widevine|playready|fairplay|key_id|keyid/i.test(key)&&value!=null&&value!==''&&value!==false)}
+function directHls(item){if(!item||String(item.type||'').toUpperCase()!=='HLS'||hasDrm(item))return null;if(Object.keys(item).some(key=>/^(headers|request_headers|http_headers)$/i.test(key)&&item[key]))return null;try{const u=new URL(item.url);if(!['https:','http:'].includes(u.protocol)||!u.hostname||/^(localhost|127.|10.|192.168.)/.test(u.hostname))return null;return u.href}catch{return null}}
+function safeImage(value){try{const u=new URL(value);return ['https:','http:'].includes(u.protocol)?u.href:''}catch{return ''}}
+function placeholder(name){const e=document.createElement('span');e.className='placeholder';e.textContent=(name||'?').trim().slice(0,1).toUpperCase();return e}
+function makeCard(item){const src=directHls(item),card=document.createElement(src?'button':'div');card.className='card'+(src?' play':'');if(src){card.type='button';card.addEventListener('click',()=>play(item,src))}const icon=safeImage(item.icono||item.logo||'');if(icon){const img=document.createElement('img');img.className='logo';img.loading='lazy';img.alt='';img.src=icon;img.onerror=()=>img.replaceWith(placeholder(item.name));card.append(img)}else card.append(placeholder(item.name));const name=document.createElement('span');name.className='name';name.textContent=item.name||'Canal';card.append(name);const badge=document.createElement('span');badge.className='badge'+(src?' ok':'');badge.textContent=src?'HLS disponible':'Sin enlace directo compatible';card.append(badge);return card}
+function render(){const query=searchEl.value.trim().toLocaleLowerCase(),selected=categoryEl.value;catalogEl.replaceChildren();let total=0;groups.filter(g=>!selected||g.name===selected).forEach(g=>{const items=(Array.isArray(g.samples)?g.samples:[]).filter(i=>String(i.name||'').toLocaleLowerCase().includes(query));if(!items.length)return;const section=document.createElement('section');section.className='category';const title=document.createElement('h2');title.textContent=g.name||'Otros';section.append(title);const grid=document.createElement('div');grid.className='grid';items.forEach(i=>grid.append(makeCard(i)));section.append(grid);catalogEl.append(section);total+=items.length});$('count').textContent=total.toLocaleString('es')+' canales';$('status').textContent=total?'':'No hay canales que coincidan con la búsqueda.'}
+function stopPlayback(){if(hls){hls.destroy();hls=null}const v=$('video');v.pause();v.removeAttribute('src');v.load()}
+function play(item,url){stopPlayback();$('playing-name').textContent=item.name||'Canal';$('play-status').textContent='Cargando transmisión…';$('player').classList.add('open');const v=$('video');if(window.Hls&&Hls.isSupported()){hls=new Hls();hls.loadSource(url);hls.attachMedia(v);hls.on(Hls.Events.MANIFEST_PARSED,()=>v.play().catch(()=>{}));hls.on(Hls.Events.ERROR,(_e,d)=>{if(d.fatal)$('play-status').textContent='No se pudo reproducir. El servidor puede requerir autorización o permitir solo ciertos orígenes.'})}else if(v.canPlayType('application/vnd.apple.mpegurl')){v.src=url;v.play().catch(()=>{})}else{$('play-status').textContent='Este navegador no admite reproducción HLS.';return}v.onplaying=()=> $('play-status').textContent='';v.onerror=()=> $('play-status').textContent='No se pudo reproducir este enlace HLS.'}
+function closePlayer(){$('player').classList.remove('open');stopPlayback()}$('close').addEventListener('click',closePlayer);$('player').addEventListener('click',e=>{if(e.target===$('player'))closePlayer()});document.addEventListener('keydown',e=>{if(e.key==='Escape')closePlayer()});searchEl.addEventListener('input',render);categoryEl.addEventListener('change',render);
+fetch(CATALOG_URL).then(r=>{if(!r.ok)throw Error('HTTP '+r.status);return r.json()}).then(data=>{if(!Array.isArray(data))throw Error('formato de catálogo no reconocido');groups=data;groups.forEach(g=>{const o=document.createElement('option');o.value=g.name||'';o.textContent=g.name||'Otros';categoryEl.append(o)});render()}).catch(e=>{$('status').style.color='#ff9b9b';$('status').textContent='No se pudo cargar el catálogo ('+e.message+').' });
+</script></body></html>
